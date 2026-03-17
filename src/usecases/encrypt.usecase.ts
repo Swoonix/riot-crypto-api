@@ -1,12 +1,15 @@
-import { JsonObject } from "src/domain/types/json-object.type";
-import { EncryptionService } from "src/services/encryption.service";
+import { Inject, Injectable } from '@nestjs/common';
+import type { JsonObject } from "src/domain/types/json-object.type";
+import { ENCRYPTION_SERVICE } from "src/services/encryption.service";
+import type { EncryptionService } from "src/services/encryption.service";
 
-class EncryptUseCase {
-    constructor(private encryptionService: EncryptionService) {}
+@Injectable()
+export class EncryptUseCase {
+    constructor(
+        @Inject(ENCRYPTION_SERVICE) private readonly encryptionService: EncryptionService
+    ) {}
 
     execute(data: JsonObject): JsonObject {
         return this.encryptionService.encrypt(data)
     }
 }
-
-export { EncryptUseCase }
