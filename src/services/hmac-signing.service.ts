@@ -4,6 +4,7 @@ import { createHmac } from "node:crypto"
 import stringify  from 'fast-json-stable-stringify'
 import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class HmacSigningService implements SigningService {
     constructor(
         private readonly secret: string = '',
