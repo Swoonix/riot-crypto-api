@@ -1,8 +1,6 @@
-import { Injectable } from '@nestjs/common';
 import { JsonObject } from "src/domain/types/json-object.type";
 import { EncryptionService } from "./encryption.service";
 
-@Injectable()
 export class Base64EncryptionService implements EncryptionService {
     encrypt(data: JsonObject): JsonObject {
         const encodedResult: JsonObject = {}
@@ -24,7 +22,6 @@ export class Base64EncryptionService implements EncryptionService {
                 // We use JSON.parse here to ensure that typing remains correct
                 decodedResult[key] = JSON.parse(decoded);
             } catch (e) {
-                console.log(e);
                 decodedResult[key] = value;
             }
         }

@@ -2,6 +2,7 @@ import { JsonObject } from "src/domain/types/json-object.type";
 import { SigningService } from "./signing.service";
 import { createHmac } from "node:crypto"
 import stringify  from 'fast-json-stable-stringify'
+import { Injectable } from "@nestjs/common";
 
 export class HmacSigningService implements SigningService {
     constructor(
