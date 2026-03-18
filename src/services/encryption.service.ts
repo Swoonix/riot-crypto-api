@@ -6,5 +6,5 @@ export const ENCRYPTION_SERVICE = 'ENCRYPTION_SERVICE';
 // Interface for the encryption service. It's a contract that all encryption services must implement (example: Base64EncryptionService, AES256EncryptionService, etc.)
 export interface EncryptionService {
     encrypt(data: JsonObject): JsonObject;
-   // decrypt(data: unknown): unknown;
+    decrypt(data: JsonObject): JsonObject;
   }
