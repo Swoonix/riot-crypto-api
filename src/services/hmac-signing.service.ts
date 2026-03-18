@@ -37,4 +37,9 @@ export class HmacSigningService implements SigningService {
 
         return { signature }
     }
+
+    verify(signature: string, data: JsonObject): boolean {
+        const expected = this.sign(data).signature as string;
+        return signature === expected;
+    }
 }

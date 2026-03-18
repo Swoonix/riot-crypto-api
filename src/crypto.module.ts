@@ -7,6 +7,7 @@ import { DecryptUseCase } from './usecases/decrypt.usecase';
 import { SignUseCase } from './usecases/sign.usecase';
 import { HmacSigningService } from './services/hmac-signing.service';
 import { SIGNING_SERVICE } from './services/signing.service';
+import { VerifyUseCase } from './usecases/verify.usecase';
 
 @Module({
   imports: [],
@@ -15,6 +16,7 @@ import { SIGNING_SERVICE } from './services/signing.service';
     EncryptUseCase,
     DecryptUseCase,
     SignUseCase,
+    VerifyUseCase,
     {
       provide: ENCRYPTION_SERVICE,
       useClass: Base64EncryptionService,

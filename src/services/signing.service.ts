@@ -5,5 +5,5 @@ export const SIGNING_SERVICE = 'SIGNING_SERVICE';
 
 export interface SigningService {
     sign(data: JsonObject): JsonObject;
-    // verify(data: JsonObject): JsonObject;
+    verify(signature: string, data: JsonObject): boolean;
   }

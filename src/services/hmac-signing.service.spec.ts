@@ -73,4 +73,38 @@ describe('HmacSigningService', () => {
             expect(typeof result.signature).toBe('string');
         });
     });
+
+    describe('verify', () => {
+        it('should return true for a valid signature', () => {
+            const data = { message: 'Hello World', timestamp: 1616161616 };
+            const { signature } = service.sign(data) as { signature: string };
+            expect(service.verify(signature, data)).toBe(true);
+        });
+
+        it('should return false for a different payload', () => {
+            const data = { message: 'Hello World', timestamp: 1616161616 };
+            const { signature } = service.sign(data) as { signature: string };
+            const tampered = { message: 'Goodbye World', timestamp: 1616161616 };
+            expect(service.verify(signature, tampered)).toBe(false);
+        });
+
+        it('should return false for a different signature', () => {
+            const data = { message: 'Hello World', timestamp: 1616161616 };
+            expect(service.verify('random-signature', data)).toBe(false);
+        });
+
+        it('should return true regardless of property order', () => {
+            const data1 = { message: 'Hello World', timestamp: 1616161616 };
+            const data2 = { timestamp: 1616161616, message: 'Hello World' };
+            const { signature } = service.sign(data1) as { signature: string };
+            expect(service.verify(signature, data2)).toBe(true);
+        });
+
+        it('should return false when using a different secret', () => {
+            const data = { message: 'Hello World', timestamp: 1616161616 };
+            const { signature } = service.sign(data) as { signature: string };
+            const otherService = new HmacSigningService('other-secret');
+            expect(otherService.verify(signature, data)).toBe(false);
+        });
+    });
 });
