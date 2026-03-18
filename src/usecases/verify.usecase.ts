@@ -9,9 +9,7 @@ export class VerifyUseCase {
     ) {}
 
     execute(body: JsonObject): boolean {
-        const { signature, data, ...rest } = body as { signature: string; data?: JsonObject } & JsonObject;
-        // If we have a payload in data key, we try to verify this object. Otherwise, we try to verify top level keys.
-        const payload = data ?? rest as JsonObject;
-        return this.signingService.verify(signature, payload);
+        const { signature, data } = body as { signature: string; data: JsonObject };
+        return this.signingService.verify(signature, data);
     }
 }

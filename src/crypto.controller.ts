@@ -8,7 +8,7 @@ import { ApiDecrypt, ApiEncrypt, ApiSign, ApiVerify } from './crypto.controller.
 
 @Controller()
 export class CryptoController {
-  constructor(private readonly encryptUseCase: EncryptUseCase, private decryptUseCase: DecryptUseCase, private signUseCase: SignUseCase, private verifyUseCase: VerifyUseCase) {}
+  constructor(private readonly encryptUseCase: EncryptUseCase, private readonly decryptUseCase: DecryptUseCase, private readonly signUseCase: SignUseCase, private readonly verifyUseCase: VerifyUseCase) {}
 
   @Post('/encrypt')
   @ApiEncrypt()

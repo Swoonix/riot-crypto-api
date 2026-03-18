@@ -71,7 +71,7 @@ describe('Crypto endpoints (e2e)', () => {
 
       await request(app.getHttpServer())
         .post('/verify')
-        .send({ signature: signed.signature, ...data })
+        .send({ signature: signed.signature, data })
         .expect(204);
     });
 
@@ -85,7 +85,7 @@ describe('Crypto endpoints (e2e)', () => {
 
       await request(app.getHttpServer())
         .post('/verify')
-        .send({ signature: signed.signature, timestamp: 1616161616, message: 'Hello World' })
+        .send({ signature: signed.signature, data: { timestamp: 1616161616, message: 'Hello World' } })
         .expect(204);
     });
 
@@ -99,14 +99,14 @@ describe('Crypto endpoints (e2e)', () => {
 
       await request(app.getHttpServer())
         .post('/verify')
-        .send({ signature: signed.signature, message: 'Goodbye World', timestamp: 1616161616 })
+        .send({ signature: signed.signature, data: { message: 'Goodbye World', timestamp: 1616161616 } })
         .expect(400);
     });
 
     it('should return 400 when the signature is invalid', async () => {
       await request(app.getHttpServer())
         .post('/verify')
-        .send({ signature: 'invalid-signature', message: 'Hello World', timestamp: 1616161616 })
+        .send({ signature: 'invalid-signature', data: { message: 'Hello World', timestamp: 1616161616 } })
         .expect(400);
     });
   });
