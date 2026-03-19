@@ -137,10 +137,33 @@ npm run test
 npm run test:e2e
 ````
 
-## Improvments
+## Improvements
 
 Some improvements could be added : 
 - Add a `success` / `reject` pattern on `UseCases` to avoid checking result in Controller
 - Add an `InvalidSignatureException` domain exception class to avoid having business logic in Controller
 
+## Algorithm Abstraction
 
+We can easily switch from an algorithm to another one just by switching the factory used in `crypto.module.ts`
+
+```typescript
+  {
+      provide: ENCRYPTION_SERVICE,
+      useClass: Base64EncryptionService,
+  },
+```
+could be : 
+
+```typescript
+  {
+      provide: ENCRYPTION_SERVICE,
+      useClass: Base32EncryptionService,
+  },
+```
+
+to use a Base32 algorithm matching the `EncryptionService` interface. 
+
+## Consistency
+
+Both `/encpryt` followed by `/decrypt` and `/sign` followed by `/verify` workflows are tested in `app.e2e-spec.ts`. You can use the swagger to verify it as well. 
