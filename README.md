@@ -7,6 +7,7 @@ HTTP API for encrypting, decrypting, signing, and verifying JSON payloads. This 
 - **NestJS** — framework
 - **Base64** — encryption algorithm
 - **HMAC-SHA256** — signing algorithm
+- **fast-json-stable-stringify** - library to canonicalize JSON because order of properties should not affect the signature (JSON.stringify is not enough)
 
 ## Getting started
 
@@ -134,4 +135,12 @@ npm run test
 
 # e2e tests
 npm run test:e2e
+````
+
+## Improvments
+
+Some improvements could be added : 
+- Add a `success` / `reject` pattern on `UseCases` to avoid checking result in Controller
+- Add an `InvalidSignatureException` domain exception class to avoid having business logic in Controller
+
 
