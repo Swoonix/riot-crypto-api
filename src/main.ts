@@ -7,7 +7,9 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Crypto API')
-    .setDescription('HTTP API for encryption, decryption, signing, and verification of JSON payloads.')
+    .setDescription(
+      'HTTP API for encryption, decryption, signing, and verification of JSON payloads.',
+    )
     .setVersion('1.0')
     .build();
 
@@ -17,4 +19,4 @@ async function bootstrap() {
 
   await app.listen(process.env.PORT ?? 3000);
 }
-bootstrap();
+void bootstrap();

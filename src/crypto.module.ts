@@ -23,8 +23,9 @@ import { VerifyUseCase } from './usecases/verify.usecase';
     },
     {
       provide: SIGNING_SERVICE,
-      useFactory: () => new HmacSigningService(process.env.HMAC_SECRET ?? 'default-secret')
-    }
+      useFactory: () =>
+        new HmacSigningService(process.env.HMAC_SECRET ?? 'default-secret'),
+    },
   ],
 })
 export class CryptoModule {}

@@ -1,47 +1,47 @@
-import { JsonObject } from "src/domain/types/json-object.type";
-import { SigningService } from "./signing.service";
-import { createHmac } from "node:crypto"
-import stringify  from 'fast-json-stable-stringify'
-import { Injectable } from "@nestjs/common";
+import { JsonObject } from 'src/domain/types/json-object.type';
+import { SigningService } from './signing.service';
+import { createHmac } from 'node:crypto';
+import stringify from 'fast-json-stable-stringify';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class HmacSigningService implements SigningService {
-    constructor(
-        private readonly secret: string = '',
-        private readonly excludedKeys: string[] = ['signature']
-    ) {}
+  constructor(
+    private readonly secret: string = '',
+    private readonly excludedKeys: string[] = ['signature'],
+  ) {}
 
-    // We do not want to sign a potential existing signature key
-    private removeExcludedKeys(data: JsonObject): JsonObject {
-        const result: JsonObject = {};
+  // We do not want to sign a potential existing signature key
+  private removeExcludedKeys(data: JsonObject): JsonObject {
+    const result: JsonObject = {};
 
-        for (const [key, value] of Object.entries(data)) {
-            if (this.excludedKeys.includes(key)) continue;
+    for (const [key, value] of Object.entries(data)) {
+      if (this.excludedKeys.includes(key)) continue;
 
-            if (value && typeof value === 'object' && !Array.isArray(value)) {
-                result[key] = this.removeExcludedKeys(value as JsonObject);
-            } else {
-                result[key] = value;
-            }
-        }
-
-        return result;
+      if (value && typeof value === 'object' && !Array.isArray(value)) {
+        result[key] = this.removeExcludedKeys(value as JsonObject);
+      } else {
+        result[key] = value;
+      }
     }
 
-    sign(data: JsonObject): JsonObject {
-        const cleaned = this.removeExcludedKeys(data);
+    return result;
+  }
 
-        const payload = stringify(cleaned);
+  sign(data: JsonObject): JsonObject {
+    const cleaned = this.removeExcludedKeys(data);
 
-        const signature = createHmac('sha256', this.secret)
-            .update(payload)
-            .digest('hex');
+    const payload = stringify(cleaned);
 
-        return { signature }
-    }
+    const signature = createHmac('sha256', this.secret)
+      .update(payload)
+      .digest('hex');
 
-    verify(signature: string, data: JsonObject): boolean {
-        const expected = this.sign(data).signature as string;
-        return signature === expected;
-    }
+    return { signature };
+  }
+
+  verify(signature: string, data: JsonObject): boolean {
+    const expected = this.sign(data).signature as string;
+    return signature === expected;
+  }
 }
